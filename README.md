@@ -1,3 +1,9 @@
+# Quartz64A
+## Issues
+- There is bug in ethernet driver, when board is connected to power, on first boot it fails to connect to the network.
+Without removing power, pressing RESET button causes reboot, and on this second boot, the ethernet driver works correctly.
+
+
 # How do I submit patches to Android Common Kernels
 
 1. BEST: Make all of your changes to upstream Linux. If appropriate, backport to the stable releases.
