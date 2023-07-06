@@ -299,7 +299,9 @@
 		pinctrl-0 = <&pmic_int_l>, <&i2s1m0_mclk>;
 		rockchip,system-power-controller;
 		#sound-dai-cells = <0>;
+		rk817,support_dc_chg= <1>;
 		wakeup-source;
+		extcon = <0>;
 
 		vcc1-supply = <&vcc_sys>;
 		vcc2-supply = <&vcc_sys>;
@@ -483,6 +485,49 @@
 				};
 			};
 		};
+
+		battery {
+			compatible = "rk817,battery";
+			//ocv_table = <3510 3679 3691 3714 3738 3759 3776
+			//			 3795 3811 3834 3852 3881 3942 3976
+			//			 4012 4075 4114 4177 4232 4277 4351>;
+			ocv_table = <3100 3200 3250 3300 3350 3400 3450 3500 3550 3600 3640 3680 3720 3760 3800 3840 3880 3920 3960 4000 4200>;
+			design_capacity = <3200>;
+			design_qmax = <3500>;
+			bat_res = <40>;
+			sleep_enter_current = <300>;
+			sleep_exit_current = <180>;
+			sleep_filter_current = <300>;
+			power_off_thresd = <3050>;
+			zero_algorithm_vol = <3650>;
+			max_soc_offset = <60>;
+			monitor_sec = <5>;
+			sample_res = <10>;
+			virtual_power = <0>;
+			fb_temperature = <200>;
+			energy_mode = <0>;
+			zero_reserve_dsoc = <0>;
+			low_power_sleep = <1>;
+		};
+
+		charger {
+			compatible = "rk817,charger";
+			min_input_voltage = <4500>;
+			max_input_current = <3000>;
+			max_chrg_current = <3000>;
+			max_chrg_voltage = <4200>;
+			otg5v_suspend_enable = <1>;
+			gate_function_disable = <0>;
+			power_dc2otg = <1>; //1 DC jack, 0 USB
+			sample_res = <10>;
+			chrg_term_mode = <0>;
+			chrg_finish_cur = <50>;
+			virtual_power = <0>;
+			dc_det_adc = <0>;
+			dc_det_pin
+			extcon = <&usb2phy0>;
+		};
+
 	};
 };
 
@@ -569,6 +614,12 @@
 			rockchip,pins = <0 RK_PA3 RK_FUNC_GPIO &pcfg_pull_up>;
 		};
 	};
+
+	// dc-charger {
+	// 	dc_det_pin: dc-det-pin {
+	// 		rockchip,pins = <4 RK_PD0 RK_FUNC_GPIO &pcfg_pull_up>;
+	// 	};
+	// };
 
 	usb2 {
 		vcc5v0_usb20_host_en: vcc5v0-usb20-host-en {
